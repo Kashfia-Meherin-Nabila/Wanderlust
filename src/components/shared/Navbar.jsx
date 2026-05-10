@@ -26,6 +26,9 @@ const Navbar = () => {
         <li>
           <NavLink href={"/admin"}>Admin</NavLink>
         </li>
+        <li>
+          <NavLink href={"/add-destination"}>Add-Destination</NavLink>
+        </li>
       </ul>
 
       <div>
