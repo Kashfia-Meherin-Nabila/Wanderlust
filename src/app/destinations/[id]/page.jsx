@@ -1,8 +1,8 @@
-import NavLink from '@/components/shared/NavLink';
+import { EditModal } from '@/components/shared/EditModal';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { BiArrowBack, BiArrowFromRight } from 'react-icons/bi';
+import { BiArrowBack } from 'react-icons/bi';
 
 const DestinationDetails =async ({params}) => {
     const {id} = await params
@@ -37,9 +37,8 @@ const DestinationDetails =async ({params}) => {
             
           </button>
           <div className="flex gap-3">
-            <button className="border border-gray-300 px-4 py-1.5 rounded-md text-sm font-medium flex items-center gap-2">
-              ✏️ Edit
-            </button>
+            <EditModal destination={ destination }/>
+
             <button className="border border-red-200 text-red-500 px-4 py-1.5 rounded-md text-sm font-medium">
               🗑️ Cancel
             </button>
