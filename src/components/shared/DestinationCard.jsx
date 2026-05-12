@@ -1,8 +1,10 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const DestinationCard = ({ destination }) => {
   const { 
+    _id,
     destinationName, 
     country, 
     category, 
@@ -60,9 +62,10 @@ const DestinationCard = ({ destination }) => {
           </div>
         </div>
 
+<Link href={`/destinations/${_id}`}>
         <button className="w-full mt-5 bg-gray-900 hover:bg-black text-white font-semibold py-2 rounded-lg transition-colors">
           Book Now
-        </button>
+        </button></Link>
       </div>
     </div>
   );
