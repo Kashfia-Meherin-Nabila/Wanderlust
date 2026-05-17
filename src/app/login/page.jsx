@@ -11,25 +11,23 @@ import {
   TextField,
 } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
-import { redirect } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { FcGoogle } from "react-icons/fc";
 import { Separator } from "@heroui/react";
+import { FcGoogle } from "react-icons/fc";
 
-const SignUpPage = () => {
+const LoginPage = () => {
   const router = useRouter();
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const user = Object.fromEntries(formData.entries());
 
-    const { data, error } = await authClient.signUp.email({
+    const { data, error } = await authClient.signIn.email({
       email: user.email,
       password: user.password,
-      name: user.name,
-      image: user.image,
     });
+    console.log(data, error);
     if (data) {
       toast.success("Account Created Successfully!");
       router.push("/");
@@ -39,31 +37,22 @@ const SignUpPage = () => {
     }
     console.log(user);
   };
-
+// google login
   const handleGoogleSignin = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-    });
-  };
+      await authClient.signIn.social({
+        provider: "google",
+      });
+    };
+
 
   return (
-    <div className="max-w-5xl mx-auto my-20 space-y-4">
+    <div className="max-w-5xl mx-auto my-20">
       <div className="text-center">
-        <h2 className="text-2xl font-bold">Create Account</h2>
+        <h2 className="text-2xl font-bold">Login Account</h2>
         <p>Start your adventure with Wanderlust</p>
       </div>
       <Card className="space-y-4">
-        <Form onSubmit={onSubmit} className="flex flex-col gap-4 ">
-          <TextField isRequired name="name" type="text">
-            <Label>Name</Label>
-            <Input placeholder="Type your name" />
-            <FieldError />
-          </TextField>
-          <TextField isRequired name="image" type="url">
-            <Label>Image</Label>
-            <Input placeholder="Image URL" />
-            <FieldError />
-          </TextField>
+        <Form onSubmit={onSubmit} className="flex flex-col gap-4">
           <TextField
             isRequired
             name="email"
@@ -106,28 +95,28 @@ const SignUpPage = () => {
           </TextField>
           <div className="flex justify-center gap-2">
             <Button className={"rounded-none w-full bg-cyan-500"} type="submit">
-              Sign Up
+              Login
             </Button>
           </div>
         </Form>
         <div className="flex justify-center items-center gap-3">
-          <Separator />
-          <div className="whitespace-nowrap">Or Sign Up With</div>
-          <Separator />
-        </div>
-        <div>
-          <Button
-            onClick={handleGoogleSignin}
-            className="w-full rounded-none"
-            variant="tertiary"
-          >
-            <FcGoogle />
-            Sign in with Google
-          </Button>
-        </div>
+                  <Separator />
+                  <div className="whitespace-nowrap">Or Sign Up With</div>
+                  <Separator />
+                </div>
+                <div>
+                  <Button
+                    onClick={handleGoogleSignin}
+                    className="w-full rounded-none"
+                    variant="tertiary"
+                  >
+                    <FcGoogle />
+                    Sign in with Google
+                  </Button>
+                </div>
       </Card>
     </div>
   );
 };
 
-export default SignUpPage;
+export default LoginPage;
