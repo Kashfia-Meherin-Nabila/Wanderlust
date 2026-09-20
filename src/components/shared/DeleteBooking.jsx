@@ -5,6 +5,7 @@ import { FiDelete } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 
 export function DeleteBooking({ bookingId }) {
     const router = useRouter();
@@ -12,11 +13,15 @@ export function DeleteBooking({ bookingId }) {
   const handleCancelBooking = async () => {
     try {
       setLoading(true);
+      const {data: tokenData} = await authClient.token()
+          const token = tokenData?.token;
+          // console.log(token);
 
       const res = await fetch(`http://localhost:5000/booking/${bookingId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
         },
       });
 

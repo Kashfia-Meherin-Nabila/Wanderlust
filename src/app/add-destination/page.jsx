@@ -1,4 +1,5 @@
 "use client"
+import { authClient } from "@/lib/auth-client";
 import { FieldError } from "@heroui/react";
 import { Label } from "@heroui/react";
 import { Input } from "@heroui/react";
@@ -15,10 +16,15 @@ const AddDestination = () => {
     const formData = new FormData(e.currentTarget);
     const destination = Object.fromEntries(formData.entries());
 
+    const {data: tokenData} = await authClient.token()
+        const token = tokenData?.token;
+        // console.log(token);
+
     const res = await fetch("http://localhost:5000/destination", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(destination),
     });

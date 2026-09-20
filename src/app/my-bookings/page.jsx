@@ -11,13 +11,27 @@ const MyBookingsPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(), // you need to pass the headers object.
   });
+  const tokenData = await auth.api.getToken({
+    headers: await headers(),
+  });
+  
+  // console.log("Token data:", tokenData);
+  
+  const token = tokenData?.token;
+  if (!token) {
+    throw new Error("Unable to generate authentication token");
+  }
+  
   const user = session?.user
   const res = await fetch(`http://localhost:5000/booking/${user?.id}`,{
-    cache: "no-store"
+    cache: "no-store",
+    headers:{
+      Authorization: `Bearer ${token}`,
+    }
   })
   const bookings=await res.json()
 
-  console.log(bookings);
+  // console.log(bookings);
 
 
   return <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8 font-sans">

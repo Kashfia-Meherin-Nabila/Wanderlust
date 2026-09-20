@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import {
   Button,
   Input,
@@ -12,6 +13,7 @@ import {
   ListBox,
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { BiEdit } from "react-icons/bi";
 import { BsPencilSquare } from "react-icons/bs";
 
@@ -28,29 +30,56 @@ export function EditModal({ destination }) {
     imageUrl,
     description,
   } = destination || {};
- const router = useRouter();
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const updatedData = Object.fromEntries(formData.entries());
-    console.log("Updated Destination Data:", updatedData);
-    // Here you would typically call your API:
+  const router = useRouter();
+  
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-   
-    const res = await fetch(`http://localhost:5000/destinations/${_id}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    });
+  const formData = new FormData(e.currentTarget);
+  const updatedData = Object.fromEntries(formData.entries());
+
+  try {
+    const { data: tokenData } = await authClient.token();
+    const token = tokenData?.token;
+
+    if (!token) {
+      toast.error("Authentication failed. Please login again.");
+      return;
+    }
+
+    const res = await fetch(
+      `http://localhost:5000/destinations/${_id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedData),
+      }
+    );
+
     const data = await res.json();
-    console.log(data);
+
+    if (!res.ok) {
+      toast.error(data.message || "Failed to update destination");
+      return;
+    }
 
     if (data.modifiedCount > 0) {
-    router.refresh();
+      toast.success("Destination updated successfully!");
+      router.refresh();
+    } else if (data.matchedCount > 0) {
+      toast.success("No changes were needed!");
+    } else {
+      toast.error("Destination not found");
+    }
+  } catch (error) {
+    console.error("Update error:", error);
+    toast.error("Something went wrong!");
   }
-  };
+};
+
 
   return (
     <Modal>

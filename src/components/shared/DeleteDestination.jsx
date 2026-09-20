@@ -1,23 +1,28 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { AlertDialog, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { FiDelete } from "react-icons/fi";
 
 export function DeleteDestination({ destination }) {
-     const router = useRouter();
+  const router = useRouter();
   const { _id, destinationName } = destination;
 
   const handleDelete = async () => {
+    const { data: tokenData } = await authClient.token();
+    const token = tokenData?.token;
+    // console.log(token);
     const res = await fetch(`http://localhost:5000/destinations/${_id}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
     const data = await res.json();
-     if (data.deletedCount > 0) {
-      router.push("/destinations"); 
+    if (data.deletedCount > 0) {
+      router.push("/destinations");
     }
     console.log(data);
   };

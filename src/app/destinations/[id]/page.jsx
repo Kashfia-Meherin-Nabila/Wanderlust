@@ -1,6 +1,8 @@
 import BookingCard from "@/components/shared/BookingCard";
 import { DeleteDestination } from "@/components/shared/DeleteDestination";
 import { EditModal } from "@/components/shared/EditModal";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -9,8 +11,33 @@ import { BiArrowBack } from "react-icons/bi";
 
 const DestinationDetails = async ({ params }) => {
   const { id } = await params;
-  const res = await fetch(`http://localhost:5000/destinations/${id}`);
-  const destination = await res.json();
+  const tokenData = await auth.api.getToken({
+  headers: await headers(),
+});
+
+// console.log("Token data:", tokenData);
+
+const token = tokenData?.token;
+
+if (!token) {
+  throw new Error("Failed to generate authentication token");
+}
+
+const res = await fetch(
+  `http://localhost:5000/destinations/${id}`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  }
+);
+
+if (!res.ok) {
+  throw new Error(`Failed to fetch destination: ${res.status}`);
+}
+
+const destination = await res.json();
 
   if (!destination) return <div className="p-10 text-center">Loading...</div>;
 
