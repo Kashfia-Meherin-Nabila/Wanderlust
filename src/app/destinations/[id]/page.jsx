@@ -1,3 +1,4 @@
+import BookingCard from "@/components/shared/BookingCard";
 import { DeleteDestination } from "@/components/shared/DeleteDestination";
 import { EditModal } from "@/components/shared/EditModal";
 import Image from "next/image";
@@ -14,12 +15,13 @@ const DestinationDetails = async ({ params }) => {
   if (!destination) return <div className="p-10 text-center">Loading...</div>;
 
   const {
+    
     destinationName,
     country,
     category,
-    price,
+    
     duration,
-    departureDate,
+   
     imageUrl,
     description,
   } = destination;
@@ -105,7 +107,8 @@ const DestinationDetails = async ({ params }) => {
 
           {/* Right Column: Booking Card */}
           <div className="lg:col-span-1">
-            <div className="border border-gray-100 shadow-xl rounded-2xl p-6 sticky top-10">
+            <BookingCard destination={destination}/>
+            {/* <div className="border border-gray-100 shadow-xl rounded-2xl p-6 sticky top-10">
               <p className="text-gray-500 text-sm mb-1">Starting from</p>
               <h2 className="text-3xl font-bold text-cyan-600 mb-6">
                 ${price}{" "}
@@ -133,7 +136,9 @@ const DestinationDetails = async ({ params }) => {
                   ✓ 24/7 customer support
                 </li>
               </ul>
-            </div>
+            </div> */}
+
+
           </div>
         </div>
       </main>
