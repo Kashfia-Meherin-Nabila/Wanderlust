@@ -17,7 +17,7 @@ export function DeleteBooking({ bookingId }) {
           const token = tokenData?.token;
           // console.log(token);
 
-      const res = await fetch(`http://localhost:5000/booking/${bookingId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${bookingId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -40,15 +40,7 @@ export function DeleteBooking({ bookingId }) {
       setLoading(false);
     }
   };
-//     const res =await fetch(`http://localhost:5000/booking/${bookingId}`, {
-//       method: "DELETE",
-//       headers: {
-//         "content-type": "application/json",
-//       },
-//     });
-//     const data = await res.json();
-//     window.location.reload()
-//   };
+
   return (
     <AlertDialog>
       <AlertDialog.Trigger>

@@ -13,7 +13,7 @@ export function DeleteDestination({ destination }) {
     const { data: tokenData } = await authClient.token();
     const token = tokenData?.token;
     // console.log(token);
-    const res = await fetch(`http://localhost:5000/destinations/${_id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destinations/${_id}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",

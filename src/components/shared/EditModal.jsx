@@ -48,7 +48,7 @@ const handleSubmit = async (e) => {
     }
 
     const res = await fetch(
-      `http://localhost:5000/destinations/${_id}`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/destinations/${_id}`,
       {
         method: "PATCH",
         headers: {

@@ -24,7 +24,7 @@ if (!token) {
 }
 
 const res = await fetch(
-  `http://localhost:5000/destinations/${id}`,
+  `${process.env.NEXT_PUBLIC_SERVER_URL}/destinations/${id}`,
   {
     headers: {
       Authorization: `Bearer ${token}`,
