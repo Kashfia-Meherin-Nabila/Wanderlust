@@ -37,7 +37,7 @@ const SignUpPage = () => {
     if (error) {
       toast.error("Something went wrong");
     }
-    console.log(user);
+    // console.log(user);
   };
 
   const handleGoogleSignin = async () => {

@@ -27,7 +27,7 @@ const LoginPage = () => {
       email: user.email,
       password: user.password,
     });
-    console.log(data, error);
+    // console.log(data, error);
     if (data) {
       toast.success("Account Created Successfully!");
       router.push("/");

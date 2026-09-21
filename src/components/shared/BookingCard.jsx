@@ -2,10 +2,12 @@
 import { authClient } from "@/lib/auth-client";
 import { Label } from "@heroui/react";
 import { DateField } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 const BookingCard = ({ destination }) => {
+  const router = useRouter();
   const { data: session } = authClient.useSession();
   const user = session?.user;
   //console.log(user);
@@ -26,6 +28,7 @@ const BookingCard = ({ destination }) => {
       country,
       departureDate: new Date(departureDate),
     };
+    
 
     const {data: tokenData} = await authClient.token()
     const token = tokenData?.token;
@@ -41,6 +44,7 @@ const BookingCard = ({ destination }) => {
     });
     const data = await res.json();
     toast.success("You booked Successfully")
+    router.push("/my-bookings");
   };
   return (
     <div className="border border-gray-100 shadow-xl rounded-2xl p-6 sticky top-10 space-y-4">
