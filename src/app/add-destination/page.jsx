@@ -8,9 +8,12 @@ import { TextField } from "@heroui/react";
 import { TextArea } from "@heroui/react";
 import { Button } from "@heroui/react";
 import { Select } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import React from "react";
+import toast from "react-hot-toast";
 
 const AddDestination = () => {
+  const router = useRouter();
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -21,6 +24,7 @@ const AddDestination = () => {
         // console.log(token);
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination`, {
+      cache: "no-store",
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -28,8 +32,12 @@ const AddDestination = () => {
       },
       body: JSON.stringify(destination),
     });
-    const data = await res.json();
-    console.log(data);
+   if (res.ok) {
+    toast.success("Destination Added Successfully")
+      router.push("/destinations"); 
+      router.refresh();             
+    }
+  
   };
   return (
     <div className="max-w-5xl mx-auto p-5">
