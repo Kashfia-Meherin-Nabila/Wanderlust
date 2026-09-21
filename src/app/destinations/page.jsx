@@ -1,7 +1,9 @@
 import DestinationCard from "@/components/shared/DestinationCard";
 
 const DestinationPage = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destinations`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destinations`,{
+    cache: "no-store",
+  });
   const destinations = await res.json();
   return (
     <div className="max-w-10/12 mx-auto my-20 space-y-5">

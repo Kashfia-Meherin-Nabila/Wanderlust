@@ -24,7 +24,6 @@ const AddDestination = () => {
         // console.log(token);
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination`, {
-      cache: "no-store",
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -40,28 +39,36 @@ const AddDestination = () => {
   
   };
   return (
-    <div className="max-w-5xl mx-auto p-5">
+   <div className="max-w-5xl mx-auto p-5">
       <h2 className="text-2xl font-bold">Add Destination</h2>
 
       <form onSubmit={onSubmit} className="p-10 space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Destination Name */}
           <div className="md:col-span-2">
-            <TextField name="destinationName" isRequired>
+            <TextField isRequired>
               <Label>Destination Name</Label>
-              <Input placeholder="Bali Paradise" className="rounded-2xl" />
+              <Input
+                name="destinationName"
+                placeholder="Bali Paradise"
+                className="rounded-2xl"
+              />
               <FieldError />
             </TextField>
           </div>
 
           {/* Country */}
-          <TextField name="country" isRequired>
+          <TextField isRequired>
             <Label>Country</Label>
-            <Input placeholder="Indonesia" className="rounded-2xl" />
+            <Input
+              name="country"
+              placeholder="Indonesia"
+              className="rounded-2xl"
+            />
             <FieldError />
           </TextField>
 
-          {/* Category - Updated Select Component */}
+          {/* Category */}
           <div>
             <Select
               name="category"
@@ -106,33 +113,43 @@ const AddDestination = () => {
           </div>
 
           {/* Price */}
-          <TextField name="price" type="number" isRequired>
-            <Label>Price (USD)</Label>
-            <Input type="number" placeholder="1299" className="rounded-2xl" />
+          <TextField isRequired>
+            <Label>Price (BDT)</Label>
+            <Input
+              name="price"
+              type="number"
+              placeholder="1299"
+              className="rounded-2xl"
+            />
             <FieldError />
           </TextField>
 
           {/* Duration */}
-          <TextField name="duration" isRequired>
+          <TextField isRequired>
             <Label>Duration</Label>
-            <Input placeholder="7 Days / 6 Nights" className="rounded-2xl" />
+            <Input
+              name="duration"
+              placeholder="7 Days / 6 Nights"
+              className="rounded-2xl"
+            />
             <FieldError />
           </TextField>
 
           {/* Departure Date */}
           <div className="md:col-span-2">
-            <TextField name="departureDate" type="date" isRequired>
+            <TextField isRequired>
               <Label>Departure Date</Label>
-              <Input type="date" className="rounded-2xl" />
+              <Input name="departureDate" type="date" className="rounded-2xl" />
               <FieldError />
             </TextField>
           </div>
 
-          {/* Image URL - Removed preview */}
+          {/* Image URL */}
           <div className="md:col-span-2">
-            <TextField name="imageUrl" isRequired>
+            <TextField isRequired>
               <Label>Image URL</Label>
               <Input
+                name="imageUrl"
                 type="url"
                 placeholder="https://example.com/bali-paradise.jpg"
                 className="rounded-2xl"
@@ -143,9 +160,10 @@ const AddDestination = () => {
 
           {/* Description */}
           <div className="md:col-span-2">
-            <TextField name="description" isRequired>
+            <TextField isRequired>
               <Label>Description</Label>
               <TextArea
+                name="description"
                 placeholder="Describe the travel experience..."
                 className="rounded-3xl"
               />
@@ -154,12 +172,11 @@ const AddDestination = () => {
           </div>
         </div>
 
-        {/* Buttons */}
-
+        {/* Submit Button */}
         <Button
           type="submit"
           variant="outline"
-          className=" rounded-none w-full bg-cyan-500 text-white"
+          className="rounded-none w-full bg-cyan-500 text-white"
         >
           Add Destination
         </Button>
